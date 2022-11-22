@@ -123,9 +123,8 @@ namespace Medical_Industry_API.Controllers
 
 
 
-        [Microsoft.AspNetCore.Mvc.Route("SaveFile")]
+        
         [HttpPost]
-
         public JsonResult SaveFile()
         {
             try
@@ -151,7 +150,6 @@ namespace Medical_Industry_API.Controllers
         }
 
 
-        [Microsoft.AspNetCore.Mvc.Route("GetAllPatientNames")]
         public JsonResult GetAllPatientNames()
         {
             string query = @"
