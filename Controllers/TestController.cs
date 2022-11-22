@@ -24,7 +24,7 @@ namespace Medical_Industry_API.Controllers
         {
             string query = "";
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("PatientRecordsConn");
+            string sqlDataSource = _configuration.GetConnectionString("TestConn");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -48,7 +48,7 @@ namespace Medical_Industry_API.Controllers
         {
             string query = "";
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("PatientRecordsConn");
+            string sqlDataSource = _configuration.GetConnectionString("TestConn");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -71,7 +71,7 @@ namespace Medical_Industry_API.Controllers
         {
             string query = "";
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("PatientRecordsConn");
+            string sqlDataSource = _configuration.GetConnectionString("TestConn");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -96,7 +96,7 @@ namespace Medical_Industry_API.Controllers
                     where TestId = " + id + @" 
                     ";
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("PatientRecordsConn");
+            string sqlDataSource = _configuration.GetConnectionString("TestConn");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
