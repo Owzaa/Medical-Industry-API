@@ -123,34 +123,34 @@ namespace Medical_Industry_API.Controllers
 
 
 
-        
-        [HttpPost]
-        public JsonResult SaveFile()
-        {
-            try
-            {
-                var httpRequest = Request.Form;
-                var postedFile = httpRequest.Files[0];
-                string filename = postedFile.FileName;
-                var physicalPath = _env.ContentRootPath + "/Images/" + filename;
+        /* 
+         [HttpPost("{SaveFile}")]
+         public JsonResult SaveFile(Patient pic)
+         {
+             try
+             {
+                 var httpRequest = Request.Form;
+                 var postedFile = httpRequest.Files[0];
+                 string filename = postedFile.FileName;
+                 var physicalPath = _env.ContentRootPath + "/Images/" + filename;
 
-                using (var stream = new FileStream(physicalPath, FileMode.Create))
-                {
-                    postedFile.CopyTo(stream);
-                }
+                 using (var stream = new FileStream(physicalPath, FileMode.Create))
+                 {
+                     postedFile.CopyTo(stream);
+                 }
 
-                return new JsonResult(filename);
-            }
-
-
-            catch(Exception)
-            {
-                return new JsonResult("anonymous.png");
-            }
-        }
+                 return new JsonResult(filename);
+             }
 
 
-        public JsonResult GetAllPatientNames()
+             catch(Exception)
+             {
+                 return new JsonResult("anonymous.png");
+             }
+         }
+ */
+     /*   [HttpGet]
+        public JsonResult GetAllPatientNames(int id )
         {
             string query = @"
                     select SelectAllName from dbo.Patient
@@ -173,7 +173,7 @@ namespace Medical_Industry_API.Controllers
 
             return new JsonResult(table);
         }
-
+*/
 
     }
 }
