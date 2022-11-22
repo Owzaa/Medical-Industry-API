@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Medical_Industry_API.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
+using System.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,37 +11,107 @@ namespace Medical_Industry_API.Controllers
     [ApiController]
     public class PatientDetailsController : ControllerBase
     {
-        // GET: api/<PatiantRecords>
+
+        private readonly IConfiguration _configuration;
+
+        public PatientDetailsController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+
+        // GET: api/<PatientController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public JsonResult Get()
         {
-            return new string[] { "value1", "value2" };
+            string query = "";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("PatientRecordsConn");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader); ;
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult(table);
         }
 
-        // GET api/<PatiantRecords>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
 
-            return "value";
-        }
-
-        // POST api/<PatiantRecords>
+        // POST api/<PatientController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public JsonResult Post(Patient req)
         {
+            string query = "";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("PatientRecordsConn");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader); ;
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Patient Added Successfully");
         }
 
-        // PUT api/<PatiantRecords>/5
+        // PUT api/<PatientController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, Patient req)
         {
+            string query = "";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("PatientRecordsConn");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader); ;
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
         }
 
-        // DELETE api/<PatiantRecords>/5
+        // DELETE api/<PatientController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public JsonResult Delete(int id)
         {
+            string query = @"
+                    delete from dbo.PatientRecords
+                    where PatientId = " + id + @" 
+                    ";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("PatientRecordsConn");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader); ;
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Patient Deleted Successfully");
         }
     }
 }
