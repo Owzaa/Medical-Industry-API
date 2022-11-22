@@ -151,5 +151,31 @@ namespace Medical_Industry_API.Controllers
         }
 
 
+        [Microsoft.AspNetCore.Mvc.Route("GetAllPatientNames")]
+        public JsonResult GetAllPatientNames()
+        {
+            string query = @"
+                    select SelectAllName from dbo.Patient
+                    ";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("PatientRecordsConn");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader); ;
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }
+
+
     }
 }
