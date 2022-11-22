@@ -2,21 +2,27 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Data;
+using Microsoft.AspNetCore.Components;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Hosting;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Medical_Industry_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
     [ApiController]
     public class PatientDetailsController : ControllerBase
     {
 
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _env;
 
-        public PatientDetailsController(IConfiguration configuration)
+        public PatientDetailsController(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
+            _env = env;
         }
 
 
@@ -113,5 +119,37 @@ namespace Medical_Industry_API.Controllers
             }
             return new JsonResult("Patient Deleted Successfully");
         }
+
+
+
+
+        [Microsoft.AspNetCore.Mvc.Route("SaveFile")]
+        [HttpPost]
+
+        public JsonResult SaveFile()
+        {
+            try
+            {
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                var physicalPath = _env.ContentRootPath + "/Images/" + filename;
+
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+
+                return new JsonResult(filename);
+            }
+
+
+            catch(Exception)
+            {
+                return new JsonResult("anonymous.png");
+            }
+        }
+
+
     }
 }
